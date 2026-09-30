@@ -1,249 +1,457 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auto Typography</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<title>Auto Typography AI</title>
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #080808;
-      color: white;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
+<style>
+*{
+  box-sizing:border-box;
+}
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-    }
+body{
+  margin:0;
+  background:#050505;
+  color:white;
+  font-family:Arial,sans-serif;
+  padding:18px;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 5px;
-    }
+.container{
+  max-width:600px;
+  margin:auto;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #999;
-      margin-bottom: 25px;
-    }
+h1{
+  text-align:center;
+  margin:8px 0 5px;
+  font-size:28px;
+}
 
-    label {
-      display: block;
-      margin: 15px 0 7px;
-      font-weight: bold;
-    }
+.sub{
+  text-align:center;
+  color:#888;
+  margin-bottom:25px;
+}
 
-    input,
-    textarea,
-    select {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #333;
-      border-radius: 10px;
-      background: #151515;
-      color: white;
-      font-size: 15px;
-    }
+label{
+  display:block;
+  margin:15px 0 7px;
+  font-weight:bold;
+}
 
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
+input,textarea,select{
+  width:100%;
+  background:#121212;
+  color:white;
+  border:1px solid #333;
+  border-radius:10px;
+  padding:13px;
+  font-size:15px;
+}
 
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 15px;
-      border: 0;
-      border-radius: 10px;
-      background: white;
-      color: black;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+textarea{
+  height:170px;
+  resize:none;
+}
 
-    .preview {
-      margin-top: 30px;
-      display: none;
-      justify-content: center;
-    }
+button{
+  border:0;
+  border-radius:10px;
+  padding:14px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .video {
-      width: 280px;
-      height: 500px;
-      background: linear-gradient(
-        145deg,
-        #111,
-        #292929
-      );
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 25px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+.generate{
+  width:100%;
+  margin-top:18px;
+  background:white;
+  color:black;
+  font-size:16px;
+}
 
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-    }
+.preview{
+  display:none;
+  margin-top:30px;
+  justify-content:center;
+}
 
-    .content {
-      position: relative;
-      z-index: 2;
-    }
+.video{
+  width:280px;
+  height:500px;
+  border-radius:18px;
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:25px;
+  background:
+    radial-gradient(circle at 20% 20%,#454545,transparent 35%),
+    linear-gradient(145deg,#080808,#292929);
+  transition:.4s;
+}
 
-    .topic {
-      font-size: 14px;
-      color: #aaa;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
+.overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,.25),
+      rgba(0,0,0,.78)
+    );
+}
 
-    .scene {
-      font-size: 28px;
-      font-weight: 900;
-      line-height: 1.15;
-      text-transform: uppercase;
-    }
+.content{
+  position:relative;
+  z-index:2;
+  width:100%;
+}
 
-    .scene small {
-      display: block;
-      margin-top: 25px;
-      font-size: 11px;
-      color: #aaa;
-      letter-spacing: 2px;
-    }
-  </style>
+.topic{
+  color:#aaa;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin-bottom:25px;
+}
+
+.sceneText{
+  font-size:30px;
+  font-weight:900;
+  line-height:1.1;
+  text-transform:uppercase;
+  animation:appear .5s;
+}
+
+.sceneNumber{
+  margin-top:25px;
+  font-size:11px;
+  color:#aaa;
+  letter-spacing:2px;
+}
+
+@keyframes appear{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(.96);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.controls{
+  display:none;
+  margin-top:15px;
+  gap:10px;
+}
+
+.controls button{
+  flex:1;
+  background:#171717;
+  color:white;
+  border:1px solid #333;
+}
+
+.info{
+  text-align:center;
+  color:#777;
+  font-size:12px;
+  margin-top:12px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <h1>⚡ Auto Typography</h1>
+<h1>⚡ AUTO TYPOGRAPHY AI</h1>
 
-    <div class="subtitle">
-      Turn your script into a typography video
-    </div>
+<div class="sub">
+Topic + Script → Automatic Scenes
+</div>
 
-    <label>🎯 Video Topic</label>
+<label>🎯 Video Topic</label>
 
-    <input
-      id="topic"
-      type="text"
-      placeholder="Example: Gojo Satoru"
-    >
+<input
+id="topic"
+placeholder="Example: Gojo Satoru"
+/>
 
-    <label>📝 What should the video say?</label>
+<label>📝 What should the video say?</label>
 
-    <textarea
-      id="script"
-      placeholder="Write your complete video script here..."
-    ></textarea>
+<textarea
+id="script"
+placeholder="Write your complete script here..."
+></textarea>
 
-    <label>🎨 Style</label>
+<label>🎨 Video Style</label>
 
-    <select id="style">
-      <option value="cinematic">Cinematic</option>
-      <option value="anime">Anime</option>
-      <option value="gaming">Gaming</option>
-      <option value="minimal">Minimal</option>
-    </select>
+<select id="style">
 
-    <button onclick="generateVideo()">
-      🚀 GENERATE VIDEO
-    </button>
+<option value="cinematic">
+🎬 Cinematic
+</option>
 
-    <div class="preview" id="preview">
+<option value="anime">
+🔥 Anime
+</option>
 
-      <div class="video">
+<option value="gaming">
+🎮 Gaming
+</option>
 
-        <div class="overlay"></div>
+<option value="dark">
+🌑 Dark
+</option>
 
-        <div class="content">
+</select>
 
-          <div class="topic" id="previewTopic"></div>
+<button
+class="generate"
+onclick="generate()"
+>
+🚀 GENERATE TYPOGRAPHY
+</button>
 
-          <div class="scene" id="previewScene">
-          </div>
 
-        </div>
+<div
+class="preview"
+id="preview"
+>
 
-      </div>
+<div
+class="video"
+id="video"
+>
 
-    </div>
+<div class="overlay"></div>
 
-  </div>
+<div class="content">
+
+<div
+class="topic"
+id="topicPreview"
+></div>
+
+<div
+class="sceneText"
+id="sceneText"
+>
+</div>
+
+<div
+class="sceneNumber"
+id="sceneNumber"
+></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="controls"
+id="controls"
+>
+
+<button onclick="previousScene()">
+← PREVIOUS
+</button>
+
+<button onclick="nextScene()">
+NEXT →
+</button>
+
+</div>
+
+<div
+class="info"
+id="info"
+></div>
+
+</div>
+
 
 <script>
 
-function generateVideo() {
+let scenes = [];
+let currentScene = 0;
 
-  const topic =
-    document.getElementById("topic").value.trim();
 
-  const script =
-    document.getElementById("script").value.trim();
+function generate(){
 
-  const style =
-    document.getElementById("style").value;
+const topic =
+document.getElementById("topic").value.trim();
 
-  if (!topic || !script) {
-    alert("Topic aur Script dono fill karo.");
-    return;
-  }
+const script =
+document.getElementById("script").value.trim();
 
-  document.getElementById("previewTopic")
-    .innerText = topic;
+if(!topic || !script){
 
-  document.getElementById("previewScene")
-    .innerHTML =
-      script +
-      "<small>FOLLOW FOR MORE</small>";
+alert("Topic aur Script dono fill karo.");
 
-  const video =
-    document.querySelector(".video");
+return;
 
-  if (style === "anime") {
-    video.style.background =
-      "linear-gradient(145deg,#180018,#520052)";
-  }
-
-  if (style === "gaming") {
-    video.style.background =
-      "linear-gradient(145deg,#001018,#004060)";
-  }
-
-  if (style === "minimal") {
-    video.style.background =
-      "linear-gradient(145deg,#111,#222)";
-  }
-
-  if (style === "cinematic") {
-    video.style.background =
-      "linear-gradient(145deg,#080808,#333)";
-  }
-
-  document.getElementById("preview")
-    .style.display = "flex";
 }
 
-</script>
 
-</body>
-</html>
+/*
+Split script into scenes.
+First priority = paragraphs.
+If no paragraphs = sentences.
+*/
+
+let parts =
+script
+.split(/\n+/)
+.map(x => x.trim())
+.filter(x => x.length > 0);
+
+
+if(parts.length === 1){
+
+parts =
+script
+.match(/[^.!?]+[.!?]+|[^.!?]+$/g)
+?.map(x => x.trim())
+.filter(x => x.length > 0)
+|| [script];
+
+}
+
+
+/*
+If scenes are too long,
+split them into smaller pieces.
+*/
+
+let finalScenes = [];
+
+parts.forEach(part => {
+
+if(part.length <= 85){
+
+finalScenes.push(part);
+
+}else{
+
+let words =
+part.split(" ");
+
+let temp = "";
+
+words.forEach(word => {
+
+if((temp + " " + word).trim().length > 70){
+
+finalScenes.push(temp.trim());
+
+temp = word;
+
+}else{
+
+temp += " " + word;
+
+}
+
+});
+
+if(temp.trim()){
+
+finalScenes.push(temp.trim());
+
+}
+
+}
+
+});
+
+
+scenes = finalScenes;
+
+currentScene = 0;
+
+document.getElementById("preview")
+.style.display = "flex";
+
+document.getElementById("controls")
+.style.display = "flex";
+
+showScene();
+
+}
+
+
+function showScene(){
+
+if(!scenes.length) return;
+
+
+const topic =
+document.getElementById("topic").value;
+
+const style =
+document.getElementById("style").value;
+
+
+document.getElementById("topicPreview")
+.innerText = topic;
+
+
+document.getElementById("sceneText")
+.innerText =
+scenes[currentScene];
+
+
+document.getElementById("sceneNumber")
+.innerText =
+"SCENE " +
+(currentScene + 1) +
+" / " +
+scenes.length;
+
+
+/*
+Automatic background themes
+*/
+
+const video =
+document.getElementById("video");
+
+
+if(style === "anime"){
+
+video.style.background =
+"radial-gradient(circle at 80% 20%,#72006f,transparent 35%),linear-gradient(145deg,#120012,#350035)";
+
+}
+
+else if(style === "gaming"){
+
+video.style.background =
+"radial-gradient(circle at 20% 20%,#005f75,transparent 35%),linear-gradient(145deg,#001015,#00333d)";
+
+}
+
+else if(style === "dark"){
+
+video.style.background =
+"radial-gradient(circle at 50% 20%,#444,transparent 35%),linear-gradient(145deg,#000,#151515)";
+
+}
+
+else{
+
+video.style.background =
+"rad
