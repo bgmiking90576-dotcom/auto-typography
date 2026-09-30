@@ -1,1 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Typography</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #080808;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #999;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      background: #151515;
+      color: white;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      border: 0;
+      border-radius: 10px;
+      background: white;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .preview {
+      margin-top: 30px;
+      display: none;
+      justify-content: center;
+    }
+
+    .video {
+      width: 280px;
+      height: 500px;
+      background: linear-gradient(
+        145deg,
+        #111,
+        #292929
+      );
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .topic {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .scene {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .scene small {
+      display: block;
+      margin-top: 25px;
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>⚡ Auto Typography</h1>
+
+    <div class="subtitle">
+      Turn your script into a typography video
+    </div>
+
+    <label>🎯 Video Topic</label>
+
+    <input
+      id="topic"
+      type="text"
+      placeholder="Example: Gojo Satoru"
+    >
+
+    <label>📝 What should the video say?</label>
+
+    <textarea
+      id="script"
+      placeholder="Write your complete video script here..."
+    ></textarea>
+
+    <label>🎨 Style</label>
+
+    <select id="style">
+      <option value="cinematic">Cinematic</option>
+      <option value="anime">Anime</option>
+      <option value="gaming">Gaming</option>
+      <option value="minimal">Minimal</option>
+    </select>
+
+    <button onclick="generateVideo()">
+      🚀 GENERATE VIDEO
+    </button>
+
+    <div class="preview" id="preview">
+
+      <div class="video">
+
+        <div class="overlay"></div>
+
+        <div class="content">
+
+          <div class="topic" id="previewTopic"></div>
+
+          <div class="scene" id="previewScene">
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+
+function generateVideo() {
+
+  const topic =
+    document.getElementById("topic").value.trim();
+
+  const script =
+    document.getElementById("script").value.trim();
+
+  const style =
+    document.getElementById("style").value;
+
+  if (!topic || !script) {
+    alert("Topic aur Script dono fill karo.");
+    return;
+  }
+
+  document.getElementById("previewTopic")
+    .innerText = topic;
+
+  document.getElementById("previewScene")
+    .innerHTML =
+      script +
+      "<small>FOLLOW FOR MORE</small>";
+
+  const video =
+    document.querySelector(".video");
+
+  if (style === "anime") {
+    video.style.background =
+      "linear-gradient(145deg,#180018,#520052)";
+  }
+
+  if (style === "gaming") {
+    video.style.background =
+      "linear-gradient(145deg,#001018,#004060)";
+  }
+
+  if (style === "minimal") {
+    video.style.background =
+      "linear-gradient(145deg,#111,#222)";
+  }
+
+  if (style === "cinematic") {
+    video.style.background =
+      "linear-gradient(145deg,#080808,#333)";
+  }
+
+  document.getElementById("preview")
+    .style.display = "flex";
+}
+
+</script>
+
+</body>
+</html>
